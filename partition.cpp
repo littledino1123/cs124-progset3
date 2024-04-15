@@ -162,7 +162,17 @@ long long hillClimbing(const std::vector<long long> &numbers, bool prepartition)
   for (int iter = 0; iter < MAX_ITER; ++iter)
   {
     std::vector<long long> newNumbers = currentNumbers;
-    newNumbers[rand() % newNumbers.size()] *= -1; // Flip one element's sign
+    int i = rand() % newNumbers.size();
+    int j = rand() % newNumbers.size();
+    while (i != j) // Ensure that i and j are different
+    {
+      j = rand() % newNumbers.size();
+    }
+    newNumbers[i] *= -1; // Flip one element's sign
+    float w = distribution(rng);
+    if (w > 0.5) {
+      newNumbers[j] *= -1; // Flip another element's sign
+    }
 
     long long newResidue = 0;
     for (auto number : newNumbers) {

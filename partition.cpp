@@ -5,6 +5,13 @@
 #include <ctime>
 #include <cmath>
 #include <queue>
+#include <chrono>
+#include <random>
+
+using namespace std;
+using namespace std::chrono;
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+uniform_real_distribution<float> distribution(0.0, 1.0);
 
 // Define the function to implement the Karmarkar-Karp algorithm.
 long long karmarkarKarp(const std::vector<long long> &numbers);
@@ -108,7 +115,6 @@ long long karmarkarKarp(const std::vector<long long> &numbers)
 
 long long repeatedRandom(const std::vector<long long> &numbers, bool prepartition)
 {
-  srand(time(NULL));
 
   long long bestResidue = karmarkarKarp(numbers); // You might want to compute this properly if prepartitioning
 
@@ -119,7 +125,8 @@ long long repeatedRandom(const std::vector<long long> &numbers, bool prepartitio
     // Generate a random solution
     for (auto &number : newNumbers)
     {
-      if (rand() % 2)
+      float w = distribution(rng);
+      if (w > 0.5)
       {
         number = -number; // Flip the sign randomly
       }

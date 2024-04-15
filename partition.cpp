@@ -116,7 +116,7 @@ long long karmarkarKarp(const std::vector<long long> &numbers)
 long long repeatedRandom(const std::vector<long long> &numbers, bool prepartition)
 {
 
-  long long bestResidue = karmarkarKarp(numbers); // You might want to compute this properly if prepartitioning
+  long long bestResidue = INT_MAX; // You might want to compute this properly if prepartitioning
 
   for (int iter = 0; iter < 10000; ++iter)
   {

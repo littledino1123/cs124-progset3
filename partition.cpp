@@ -137,17 +137,11 @@ long long repeatedRandom(const std::vector<long long> &numbers, bool prepartitio
       long long newResidue = karmarkarKarp(newNumbers);
       bestResidue = std::min(abs(bestResidue), abs(newResidue));
       
-      for (int iter = 0; iter < MAX_ITER; ++iter)
-      {
-        std::vector<long long> newPartition = partition;
-        int i = rand() % newPartition.size();
-        int j = rand() % newPartition.size();
-        while (partition[i] == j) // Ensure that i and j are different
-        {
-          j = rand() % newPartition.size();
+      for (int iter = 0; iter < MAX_ITER; ++iter){
+        std::vector<long long> newPartition(numbers.size());
+        for (int i = 0; i < numbers.size(); ++i) {
+          newPartition[i] = rand() % numbers.size() + 1;
         }
-        newPartition[i] = j; // Randomly assign a new partition
-        
         std::vector<long long> newNumbers(numbers.size(), 0);
         for (int i = 0; i < numbers.size(); ++i) {
           newNumbers[newPartition[i] - 1] += numbers[i]; // Add each number to the sum
@@ -284,3 +278,38 @@ long long simulatedAnnealing(const std::vector<long long> &numbers, bool prepart
 
   return bestResidue;
 }
+
+
+/*
+if (prepartition){
+      // Generate a random solution 
+      std::vector<long long> partition(numbers.size());
+      for (int i = 0; i < numbers.size(); ++i) {
+        partition[i] = rand() % numbers.size() + 1;
+      }
+      // Calculate the first residue 
+      std::vector<long long> newNumbers(numbers.size(), 0);
+      for (int i = 0; i < numbers.size(); ++i) {
+        newNumbers[partition[i] - 1] += numbers[i]; // Add each number to the sum
+      }
+      long long newResidue = karmarkarKarp(newNumbers);
+      bestResidue = std::min(abs(bestResidue), abs(newResidue));
+      
+      for (int iter = 0; iter < MAX_ITER; ++iter){
+        std::vector<long long> newPartition = partition;
+        int i = rand() % newPartition.size();
+        int j = rand() % newPartition.size();
+        while (partition[i] == j) // Ensure that i and j are different
+        {
+          j = rand() % newPartition.size();
+        }
+        newPartition[i] = j; // Randomly assign a new partition
+        
+        std::vector<long long> newNumbers(numbers.size(), 0);
+        for (int i = 0; i < numbers.size(); ++i) {
+          newNumbers[newPartition[i] - 1] += numbers[i]; // Add each number to the sum
+        }
+        long long newResidue = karmarkarKarp(newNumbers);
+        bestResidue = std::min(abs(bestResidue), abs(newResidue));
+      }
+  }*/

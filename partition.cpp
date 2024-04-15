@@ -28,6 +28,11 @@ long long hillClimbing(const std::vector<long long> &numbers, bool prepartition)
 // Define the function for simulated annealing algorithm.
 long long simulatedAnnealing(const std::vector<long long> &numbers, bool prepartition);
 
+// T function for simulated annealing
+long long T(int iter) {
+  return pow(10,10) * pow(0.8, iter / 300);
+}
+
 // Main routine that selects and runs the specified algorithm.
 int main(int argc, char *argv[])
 {
@@ -232,7 +237,7 @@ long long simulatedAnnealing(const std::vector<long long> &numbers, bool prepart
     if (newResidue < currentResidue){
       currentResidue = newResidue;
     }
-    else if (exp(-(newResidue - currentResidue) / (double)(iter + 1)) > distribution(rng)){
+    else if (exp(-(newResidue - currentResidue) / T(iter)) > distribution(rng)){
       currentNumbers = newNumbers;
       currentResidue = newResidue;
     }

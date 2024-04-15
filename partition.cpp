@@ -164,7 +164,7 @@ long long hillClimbing(const std::vector<long long> &numbers, bool prepartition)
     std::vector<long long> newNumbers = currentNumbers;
     int i = rand() % newNumbers.size();
     int j = rand() % newNumbers.size();
-    while (i != j) // Ensure that i and j are different
+    while (i == j) // Ensure that i and j are different
     {
       j = rand() % newNumbers.size();
     }
@@ -191,7 +191,7 @@ long long hillClimbing(const std::vector<long long> &numbers, bool prepartition)
 
 long long simulatedAnnealing(const std::vector<long long> &numbers, bool prepartition)
 {
-    srand(time(NULL));
+  srand(time(NULL));
   std::vector<long long> currentNumbers = numbers;
   for (auto &number : currentNumbers) {
       float w = distribution(rng);
@@ -213,7 +213,7 @@ long long simulatedAnnealing(const std::vector<long long> &numbers, bool prepart
     std::vector<long long> newNumbers = currentNumbers;
     int i = rand() % newNumbers.size();
     int j = rand() % newNumbers.size();
-    while (i != j) // Ensure that i and j are different
+    while (i == j) // Ensure that i and j are different
     {
       j = rand() % newNumbers.size();
     }

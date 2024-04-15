@@ -145,16 +145,22 @@ long long repeatedRandom(const std::vector<long long> &numbers, bool prepartitio
 long long hillClimbing(const std::vector<long long> &numbers, bool prepartition)
 {
   srand(time(NULL));
-  long long bestResidue = karmarkarKarp(numbers);
+  long long bestResidue = 0;
 
   std::vector<long long> currentNumbers = numbers;
-
+  for (auto number : currentNumbers) {
+            bestResidue += number; // Add each number to the sum
+        }
   for (int iter = 0; iter < 10000; ++iter)
   {
     std::vector<long long> newNumbers = currentNumbers;
     newNumbers[rand() % newNumbers.size()] *= -1; // Flip one element's sign
 
-    long long newResidue = karmarkarKarp(newNumbers);
+    long long newResidue = 0;
+    for (auto number : newNumbers) {
+            newResidue += number; // Add each number to the sum
+        }
+    newResidue = abs(newResidue);
     if (newResidue < bestResidue)
     {
       bestResidue = newResidue;

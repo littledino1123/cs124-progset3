@@ -135,7 +135,7 @@ long long repeatedRandom(const std::vector<long long> &numbers, bool prepartitio
     for (auto number : newNumbers) {
             newResidue += number; // Add each number to the sum
         }
-    bestResidue = std::min(bestResidue, newResidue);
+    bestResidue = std::min(abs(bestResidue), abs(newResidue));
   }
 
   return bestResidue;

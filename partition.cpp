@@ -14,6 +14,8 @@ using namespace std::chrono;
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 uniform_real_distribution<float> distribution(0.0, 1.0);
 
+static const int MAX_ITER = 25000;
+
 // Define the function to implement the Karmarkar-Karp algorithm.
 long long karmarkarKarp(const std::vector<long long> &numbers);
 
@@ -119,7 +121,7 @@ long long repeatedRandom(const std::vector<long long> &numbers, bool prepartitio
 
   long long bestResidue = INT_MAX; // You might want to compute this properly if prepartitioning
 
-  for (int iter = 0; iter < 10000; ++iter)
+  for (int iter = 0; iter < MAX_ITER; ++iter)
   {
     std::vector<long long> newNumbers = numbers;
 
@@ -156,8 +158,8 @@ long long hillClimbing(const std::vector<long long> &numbers, bool prepartition)
             bestResidue += number; // Add each number to the sum
         }
   bestResidue = abs(bestResidue);
-  
-  for (int iter = 0; iter < 10000; ++iter)
+
+  for (int iter = 0; iter < MAX_ITER; ++iter)
   {
     std::vector<long long> newNumbers = currentNumbers;
     newNumbers[rand() % newNumbers.size()] *= -1; // Flip one element's sign

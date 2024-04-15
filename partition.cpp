@@ -124,11 +124,9 @@ long long repeatedRandom(const std::vector<long long> &numbers, bool prepartitio
     std::vector<long long> newNumbers = numbers;
 
     // Generate a random solution
-    for (auto &number : newNumbers)
-    {
+    for (auto &number : newNumbers){
       float w = distribution(rng);
-      if (w > 0.5)
-      {
+      if (w > 0.5) {
         number = -number; // Flip the sign randomly
       }
     }
@@ -145,12 +143,20 @@ long long repeatedRandom(const std::vector<long long> &numbers, bool prepartitio
 long long hillClimbing(const std::vector<long long> &numbers, bool prepartition)
 {
   srand(time(NULL));
-  long long bestResidue = 0;
-
   std::vector<long long> currentNumbers = numbers;
+  for (auto &number : currentNumbers) {
+      float w = distribution(rng);
+      if (w > 0.5)
+      {
+        number = -number; // Flip the sign randomly
+      }
+  }
+  long long bestResidue = 0;
   for (auto number : currentNumbers) {
             bestResidue += number; // Add each number to the sum
         }
+  bestResidue = abs(bestResidue);
+  
   for (int iter = 0; iter < 10000; ++iter)
   {
     std::vector<long long> newNumbers = currentNumbers;

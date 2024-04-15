@@ -124,12 +124,11 @@ long long repeatedRandom(const std::vector<long long> &numbers, bool prepartitio
         number = -number; // Flip the sign randomly
       }
     }
-
-    long long newResidue = karmarkarKarp(newNumbers);
-    if (newResidue < bestResidue)
-    {
-      bestResidue = newResidue;
-    }
+    long long newResidue = 0;
+    for (auto number : newNumbers) {
+            newResidue += number; // Add each number to the sum
+        }
+    bestResidue = std::min(bestResidue, newResidue);
   }
 
   return bestResidue;

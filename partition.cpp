@@ -121,30 +121,65 @@ long long karmarkarKarp(const std::vector<long long> &numbers)
   return heap.empty() ? 0 : heap.top();
 }
 
-long long repeatedRandom(const std::vector<long long> &numbers, bool prepartition)
-{
-
-  long long bestResidue = INT_MAX; // You might want to compute this properly if prepartitioning
-
-  for (int iter = 0; iter < MAX_ITER; ++iter)
-  {
-    std::vector<long long> newNumbers = numbers;
-
-    // Generate a random solution
-    for (auto &number : newNumbers){
-      float w = distribution(rng);
-      if (w > 0.5) {
-        number = -number; // Flip the sign randomly
+long long repeatedRandom(const std::vector<long long> &numbers, bool prepartition) {
+  long long bestResidue = INT_MAX;
+  if (prepartition){
+      // Generate a random solution 
+      std::vector<long long> partition(numbers.size());
+      for (int i = 0; i < numbers.size(); ++i) {
+        partition[i] = rand() % numbers.size() + 1;
       }
-    }
-    long long newResidue = 0;
-    for (auto number : newNumbers) {
-            newResidue += number; // Add each number to the sum
+      // Calculate the first residue 
+      std::vector<long long> newNumbers(numbers.size(), 0);
+      for (int i = 0; i < numbers.size(); ++i) {
+        newNumbers[partition[i] - 1] += numbers[i]; // Add each number to the sum
+      }
+      long long newResidue = karmarkarKarp(newNumbers);
+      bestResidue = std::min(abs(bestResidue), abs(newResidue));
+      
+      for (int iter = 0; iter < MAX_ITER; ++iter)
+      {
+        std::vector<long long> newPartition = partition;
+        int i = rand() % newPartition.size();
+        int j = rand() % newPartition.size();
+        while (partition[i] == j) // Ensure that i and j are different
+        {
+          j = rand() % newPartition.size();
         }
-    bestResidue = std::min(abs(bestResidue), abs(newResidue));
+        newPartition[i] = j; // Randomly assign a new partition
+        
+        std::vector<long long> newNumbers(numbers.size(), 0);
+        for (int i = 0; i < numbers.size(); ++i) {
+          newNumbers[newPartition[i] - 1] += numbers[i]; // Add each number to the sum
+        }
+        long long newResidue = karmarkarKarp(newNumbers);
+        bestResidue = std::min(abs(bestResidue), abs(newResidue));
+      }
   }
+  // No prepartition
+  else{
+     
+    for (int iter = 0; iter < MAX_ITER; ++iter) {
+      std::vector<long long> newNumbers = numbers;
 
+      // Generate a random solution
+      for (auto &number : newNumbers){
+        float w = distribution(rng);
+        if (w > 0.5) {
+          number = -number; // Flip the sign randomly
+        }
+      }
+      long long newResidue = 0;
+      for (auto number : newNumbers) {
+              newResidue += number; // Add each number to the sum
+          }
+      bestResidue = std::min(abs(bestResidue), abs(newResidue));
+    }
+
+  
+  }
   return bestResidue;
+  
 }
 
 long long hillClimbing(const std::vector<long long> &numbers, bool prepartition)

@@ -7,6 +7,7 @@
 #include <queue>
 #include <chrono>
 #include <random>
+#include <climits>
 
 using namespace std;
 using namespace std::chrono;

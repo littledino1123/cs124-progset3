@@ -191,24 +191,51 @@ long long hillClimbing(const std::vector<long long> &numbers, bool prepartition)
 
 long long simulatedAnnealing(const std::vector<long long> &numbers, bool prepartition)
 {
-  srand(time(NULL));
-  long long bestResidue = karmarkarKarp(numbers);
-
+    srand(time(NULL));
   std::vector<long long> currentNumbers = numbers;
-  long long currentResidue = bestResidue;
+  for (auto &number : currentNumbers) {
+      float w = distribution(rng);
+      if (w > 0.5)
+      {
+        number = -number; // Flip the sign randomly
+      }
+  }
+  long long currentResidue = 0;
+  for (auto number : currentNumbers) {
+            currentResidue += number; // Add each number to the sum
+        }
+  currentResidue = abs(currentResidue);
 
-  for (int iter = 0; iter < 10000; ++iter)
+  long long bestResidue = currentResidue;
+
+  for (int iter = 0; iter < MAX_ITER; ++iter)
   {
     std::vector<long long> newNumbers = currentNumbers;
-    newNumbers[rand() % newNumbers.size()] *= -1; // Flip one element's sign
-
-    long long newResidue = karmarkarKarp(newNumbers);
-    if (newResidue < currentResidue || exp(-(newResidue - currentResidue) / (double)(iter + 1)) > (rand() / (RAND_MAX + 1.0)))
+    int i = rand() % newNumbers.size();
+    int j = rand() % newNumbers.size();
+    while (i != j) // Ensure that i and j are different
     {
+      j = rand() % newNumbers.size();
+    }
+    newNumbers[i] *= -1; // Flip one element's sign
+    float w = distribution(rng);
+    if (w > 0.5) {
+      newNumbers[j] *= -1; // Flip another element's sign
+    }
+
+    long long newResidue = 0;
+    for (auto number : newNumbers) {
+            newResidue += number; // Add each number to the sum
+        }
+    newResidue = abs(newResidue);
+
+    if (newResidue < currentResidue){
+      currentResidue = newResidue;
+    }
+    else if (exp(-(newResidue - currentResidue) / (double)(iter + 1)) > distribution(rng)){
       currentNumbers = newNumbers;
       currentResidue = newResidue;
     }
-
     if (currentResidue < bestResidue)
     {
       bestResidue = currentResidue;

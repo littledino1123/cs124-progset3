@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  std::cout << "Residue: " << residue << std::endl;
+  std::cout << residue << std::endl;
   return 0;
 }
 

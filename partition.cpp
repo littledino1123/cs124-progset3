@@ -45,6 +45,14 @@ int main(int argc, char *argv[])
   int flag = atoi(argv[1]);
   // case for generating 50 random instances
   if (flag == 4) {
+    long double kkTime = 0;
+    long double rrTime = 0;
+    long double hcTime = 0;
+    long double saTime = 0;
+    long double rrPTime = 0;
+    long double hcPTime = 0;
+    long double saPTime = 0;
+
     for (int i = 0; i < 50; ++i) {
       vector<long long> newNumbers;
       for (int j = 0; j < 100; ++j) {
@@ -52,14 +60,55 @@ int main(int argc, char *argv[])
         long long scaled_random_number = random_number % 1000000000000LL; // Ensure the number is within [0, 10^12 - 1]
         newNumbers.push_back(scaled_random_number + 1);
       }
+      auto start = high_resolution_clock::now();
       cout << "KK (no partition)" << karmarkarKarp(newNumbers) << endl;
+      auto stop = high_resolution_clock::now();
+      auto duration = duration_cast<milliseconds>(stop - start);
+      kkTime += duration.count() / 1000.0;
+
+      start = high_resolution_clock::now();
       cout << "RR (no partition)" << repeatedRandom(newNumbers, false) << endl;
+      stop = high_resolution_clock::now();
+      duration = duration_cast<milliseconds>(stop - start);
+      rrTime += duration.count() / 1000.0;
+
+      start = high_resolution_clock::now();
       cout << "HC (no partition)" << hillClimbing(newNumbers, false) << endl;
+      stop = high_resolution_clock::now();
+      duration = duration_cast<milliseconds>(stop - start);
+      hcTime += duration.count() / 1000.0;
+
+      start = high_resolution_clock::now();
       cout << "SA (no partition)" << simulatedAnnealing(newNumbers, false) << endl;
+      stop = high_resolution_clock::now();
+      duration = duration_cast<milliseconds>(stop - start);
+      saTime += duration.count() / 1000.0;
+
+      start = high_resolution_clock::now();
       cout << "RR (partition)" << repeatedRandom(newNumbers, true) << endl;
+      stop = high_resolution_clock::now();
+      duration = duration_cast<milliseconds>(stop - start);
+      rrPTime += duration.count() / 1000.0;
+      
+      start = high_resolution_clock::now();
       cout << "HC (partition)" << hillClimbing(newNumbers, true) << endl;
+      stop = high_resolution_clock::now();
+      duration = duration_cast<milliseconds>(stop - start);
+      hcPTime += duration.count() / 1000.0;
+
+      start = high_resolution_clock::now();
       cout << "SA (partition)" << simulatedAnnealing(newNumbers, true) << endl;
+      stop = high_resolution_clock::now();
+      duration = duration_cast<milliseconds>(stop - start);
+      saPTime += duration.count() / 1000.0;
     }
+    cout << "KK (no partition) average time: " << kkTime / 50 << endl;
+    cout << "RR (no partition) average time: " << rrTime / 50 << endl;
+    cout << "HC (no partition) average time: " << hcTime / 50 << endl;
+    cout << "SA (no partition) average time: " << saTime / 50 << endl;
+    cout << "RR (partition) average time: " << rrPTime / 50 << endl;
+    cout << "HC (partition) average time: " << hcPTime / 50 << endl;
+    cout << "SA (partition) average time: " << saPTime / 50 << endl;
     return 0;
   }
   int algorithm = atoi(argv[2]);
